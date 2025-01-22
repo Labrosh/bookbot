@@ -3,11 +3,19 @@ def main():
     text = get_book_text(book_path)
     num_words = get_num_words(text)
     char_count = get_char_count(text)
-    print(f"{num_words} words found in this document")
-    print(f"{char_count} characters found in this document")
+    
+    # Generate report
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{num_words} words found in the document\n")
+    
     char_frequency = get_char_frequency(text)
-    for char, count in char_frequency.items():
-        print(f"'{char}': {count}")
+    sorted_chars = sorted(char_frequency.items(), key=lambda item: item[1], reverse=True)
+    
+    for char, count in sorted_chars:
+        if char.isalpha():  # Filter to include only alphabet characters
+            print(f"The '{char}' character was found {count} times")
+    
+    print("--- End report ---")
 
 def get_num_words(text):
     words = text.split()
@@ -26,7 +34,7 @@ def get_char_frequency(text):
     for char in text:
         char = char.lower()
         if char in frequency:
-            frequency[char] += 1
+            frequency[char] += 1  # Correctly increment the count
         else:
             frequency[char] = 1
     return frequency
